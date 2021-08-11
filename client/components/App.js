@@ -1,6 +1,7 @@
 // Main React app container
 import fetch from 'node-fetch';
 import React, { Component } from 'react';
+import MuseumCard from './MuseumCard';
 
 class App extends Component {
   constructor(props) {
@@ -23,9 +24,12 @@ class App extends Component {
 
   render() {
     const { museums } = this.state;
-    const museumArr = museums.map((museum) => {
+    const museumArr = museums.map((museum, i) => {
       return (
-        <h5>{museum.name}</h5>
+        <MuseumCard
+          key={`mus${i}`}
+          info={museum}
+        />
       );
     });
 
