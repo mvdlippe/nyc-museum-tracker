@@ -1,9 +1,7 @@
 // React component to hold information about a museum
 import React from 'react';
 
-const MuseumCard = ({
-  info
-}) => {
+const MuseumCard = ({ info }) => {
   // Destructure the passed down info
   const { name, tel, url, adress1, address2, city, zip } = info;
 
@@ -46,6 +44,9 @@ const MuseumCard = ({
         <li><a href={url}>{url}</a></li>
         <li>Telephone: {tel}</li>
       </ul>
+      <div>
+        <button type="button" className="favButton" onClick={() => console.log('Fav clicked')}>&lt;3</button>
+      </div>
     </article>
   );
 }

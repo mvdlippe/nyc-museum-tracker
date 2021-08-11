@@ -1,0 +1,47 @@
+body {
+  background-color: $grey;
+}
+
+article {
+  background-color: $lightGrey;
+}
+
+html {
+  font-size: 1vw;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+}
+
+#museumContainer {
+  display: grid;
+  flex-direction: row wrap;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 2.5vw;
+  row-gap: 2.5vw;
+}
+
+article {
+  width: 30vw;
+  height: 45vh;
+}
+
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 12px;
+  }
+  #museumContainer {
+    display: flex;
+    flex-direction: row wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  article {
+    width: 90vw;
+    align-self: center;
+    justify-self: center;
+  }
+}

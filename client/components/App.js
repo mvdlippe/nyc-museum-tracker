@@ -7,8 +7,22 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      museums: []
+      museums: [],
+      favorites: []
     }
+
+    this.favClicked = this.favClicked.bind(this);
+  }
+
+  favClicked(museumName) {
+    fetch('/favorites', {
+      method: 'POST',
+      body: JSON.stringify({ museumName }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.log('favClicked ERROR: ', err));
   }
 
   componentDidMount() {
@@ -29,13 +43,14 @@ class App extends Component {
         <MuseumCard
           key={`mus${i}`}
           info={museum}
+          favClicked={this.favClicked}
         />
       );
     });
 
     return (
-      <div>
-        <h2>Hello from the react app</h2>
+      <div id="museumContainer">
+        {/* <h2>Hello from the react app</h2> */}
         {museumArr}
       </div>
     );
