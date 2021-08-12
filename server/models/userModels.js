@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
-const MONGO_URI = 'mongodb+srv://mattAdmin:EnzoCoderKitty2021@cluster0.k4d4f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const MONGO_URI = 'mongodb+srv://mattAdmin:EnzoKittyCoder2021@cluster0.k4d4f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  dbName: 'users'
+  dbName: 'nyc-museum-app'
 })
   .then(() => console.log('Connected to Mongo DB.'))
   .catch(err => console.log(err));
@@ -18,4 +18,4 @@ const userSchema = new Schema({
   favorites: Array
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('user', userSchema);

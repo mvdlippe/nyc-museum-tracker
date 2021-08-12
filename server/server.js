@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 const apiController = require('./controllers/apiController');
+const userController = require('./controllers/userController');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -13,9 +14,9 @@ app.get('/api/', apiController.getMuseums, (req, res) => {
   res.status(200).json(res.locals.museums);
 });
 
-app.post('/favorites/', (req, res) => {
+app.post('/favorites/', userController.updateFavorites, (req, res) => {
   console.log('Getting a favorites post request from: ', req.body);
-  res.status(200).json('Got a favorites click.');
+  res.status(200).json(res.locals.favorites);
 });
 
 app.get('/', (req, res) => {
