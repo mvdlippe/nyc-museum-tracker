@@ -8,10 +8,13 @@ class App extends Component {
     super(props);
     this.state = {
       museums: [],
-      favorites: []
+      favorites: [],
+      message: '',
     }
 
     this.favClicked = this.favClicked.bind(this);
+    this.logIn = this.logIn.bind(this);
+    this.signUp = this.signUp.bind(this);
   }
 
   favClicked(museumName) {
@@ -36,11 +39,41 @@ class App extends Component {
     fetch('/favorites', {
       method: 'POST',
       body: JSON.stringify({ 'name' : museumName }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type' : 'application/json' },
     })
       .then(res => res.json())
       .then(data => console.log(data))
       .catch(err => console.log('favClicked ERROR: ', err));
+  }
+
+  logIn() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    console.log(username, password);
+
+    fetch('/login', {
+      method: 'POST',
+      body: JSON.stringify({'username' : username, 'password' : password}),
+      headers: { 'Content-Type' : 'application/json' }
+    })
+      .then(res => res.json())
+      .then(message => {return this.setState({message})})
+      .catch(err => console.log('login ERROR: ', err));
+  }
+
+  signUp() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    console.log(this.state);
+
+    fetch('/signup', {
+      method: 'POST',
+      body: JSON.stringify({'username' : username, 'password' : password}),
+      headers: { 'Content-Type' : 'application/json' }
+    })
+      .then(res => res.json())
+      .then(message => {return this.setState({message})})
+      .catch(err => console.log('signup ERROR: ', err));
   }
 
   componentDidMount() {
@@ -67,9 +100,17 @@ class App extends Component {
     });
 
     return (
-      <div id="museumContainer">
-        {/* <h2>Hello from the react app</h2> */}
-        {museumArr}
+      <div>
+        <input id="username" name="username" type="text" placeholder="username"></input>
+        <input id="password" name="password" type="password" placeholder="password"></input>
+        <button onClick={() => {this.logIn()}}>Log in</button>
+        <button onClick={() => {this.signUp()}}>Sign up</button>
+        <span>{this.state.message}</span>
+        <hr></hr>
+        <div id="museumContainer">
+          {/* <h2>Hello from the react app</h2> */}
+          {museumArr}
+        </div>
       </div>
     );
   }

@@ -25,6 +25,16 @@ app.post('/favorites/',
     res.status(200).json(res.locals.favorites);
 });
 
+app.post('/login/', (req, res) => {
+  console.log('Getting a login request: ', req.body);
+  res.status(200).json('Logged in.');
+})
+
+app.post('/signup/', (req, res) => {
+  console.log('Getting a signup request: ', req.body);
+  res.status(200).json('Created a new account.');
+})
+
 app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));
 });
