@@ -28,7 +28,9 @@ class App extends Component {
     if (museum.hasOwnProperty('fav') && museum.fav) museum.fav = false;
     else museum.fav = true;
 
+    // Update the state to re-render
     this.state.museums[museumIndex] = museum;
+    this.setState(this.state.museums);
 
     // Then, send the favorite update to the server
     fetch('/favorites', {
