@@ -14,7 +14,7 @@ app.get('/api/', apiController.getMuseums, (req, res) => {
 });
 
 app.post('/favorites/', (req, res) => {
-  console.log('Getting a favorites post request from: ', req.body.name);
+  console.log('Getting a favorites post request from: ', req.body);
   res.status(200).json('Got a favorites click.');
 });
 

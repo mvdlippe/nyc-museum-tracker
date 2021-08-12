@@ -1,9 +1,9 @@
 // React component to hold information about a museum
 import React from 'react';
 
-const MuseumCard = ({ info }) => {
+const MuseumCard = (props) => {
   // Destructure the passed down info
-  const { name, tel, url, adress1, address2, city, zip } = info;
+  const { name, tel, url, adress1, address2, city, zip } = props.info;
 
   function Address(info) {
     // If address2 exists, return both adress1 and address2; otherwise just return adress1
@@ -45,7 +45,7 @@ const MuseumCard = ({ info }) => {
         <li>Telephone: {tel}</li>
       </ul>
       <div>
-        <button type="button" className="favButton" onClick={() => console.log('Fav clicked')}>&lt;3</button>
+        <button type="button" className="favButton" onClick={() => props.favClicked(name)}>&lt;3</button>
       </div>
     </article>
   );

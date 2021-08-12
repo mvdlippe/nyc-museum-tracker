@@ -17,7 +17,7 @@ class App extends Component {
   favClicked(museumName) {
     fetch('/favorites', {
       method: 'POST',
-      body: JSON.stringify({ museumName }),
+      body: JSON.stringify({ 'name' : museumName }),
       headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
