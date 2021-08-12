@@ -9,8 +9,9 @@ class App extends Component {
     this.state = {
       museums: [],
       favorites: [],
-      message: '',
-    }
+      loggedIn: '',
+      user: '',
+    };
 
     this.favClicked = this.favClicked.bind(this);
     this.logIn = this.logIn.bind(this);
@@ -28,7 +29,7 @@ class App extends Component {
     }
 
     const museum = { ...this.state.museums[museumIndex] };
-    if (museum.hasOwnProperty('fav') && museum.fav) museum.fav = false;
+    if (museum.fav) museum.fav = false;
     else museum.fav = true;
 
     // Update the state to re-render
@@ -49,7 +50,6 @@ class App extends Component {
   logIn() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    console.log(username, password);
 
     fetch('/login', {
       method: 'POST',
@@ -57,14 +57,27 @@ class App extends Component {
       headers: { 'Content-Type' : 'application/json' }
     })
       .then(res => res.json())
-      .then(message => {return this.setState({message})})
+      .then(loggedIn => {this.setState({loggedIn})})
       .catch(err => console.log('login ERROR: ', err));
+
+    console.log('After first login fetch')
+    this.state.user = username;
+    this.setState({user});
+    console.log('After user setstate')
+
+    fetch('/api', {
+      method: 'POST',
+      body: JSON.stringify({'username' : username}),
+      headers: { 'Content-Type' : 'application/json' }
+    })
+      .then(res => res.json())
+      .then(museums => {return this.setState({museums})})
+      .catch(err => console.log('get museums ERROR: ', err));
   }
 
   signUp() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    console.log(this.state);
 
     fetch('/signup', {
       method: 'POST',
@@ -72,7 +85,7 @@ class App extends Component {
       headers: { 'Content-Type' : 'application/json' }
     })
       .then(res => res.json())
-      .then(message => {return this.setState({message})})
+      .then(loggedIn => {return this.setState({loggedIn})})
       .catch(err => console.log('signup ERROR: ', err));
   }
 
@@ -105,7 +118,9 @@ class App extends Component {
         <input id="password" name="password" type="password" placeholder="password"></input>
         <button onClick={() => {this.logIn()}}>Log in</button>
         <button onClick={() => {this.signUp()}}>Sign up</button>
-        <span>{this.state.message}</span>
+        <span>
+          {(this.state.loggedIn === '') ? '' : (this.state.loggedIn) ? 'Logged in.' : 'Incorrect username or password.'}
+        </span>
         <hr></hr>
         <div id="museumContainer">
           {/* <h2>Hello from the react app</h2> */}

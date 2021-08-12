@@ -18,22 +18,33 @@ app.get('/api/',
     res.status(200).json(res.locals.museums);
 });
 
+app.post('/api/',
+  apiController.getMuseums,
+  userController.getFavorites,
+  apiController.mergeFavs,
+  (req, res) => {
+    res.status(200).json(res.locals.museums);
+  }
+)
+
 app.post('/favorites/',
   userController.getFavorites,
   userController.updateFavorites, 
   (req, res) => {
-    res.status(200).json(res.locals.favorites);
+    res.status(200).json('Favorites updated.');
 });
 
-app.post('/login/', (req, res) => {
-  console.log('Getting a login request: ', req.body);
-  res.status(200).json('Logged in.');
-})
+app.post('/login/', 
+  userController.verifyUser,
+  (req, res) => {
+    res.status(200).json(res.locals.verified);
+});
 
-app.post('/signup/', (req, res) => {
-  console.log('Getting a signup request: ', req.body);
-  res.status(200).json('Created a new account.');
-})
+app.post('/signup/',
+  userController.createUser,
+  (req, res) => {
+    res.status(200).json('Created a new account.');
+});
 
 app.get('/', (req, res) => {
   return res.status(200).sendFile(path.join(__dirname, '../index.html'));

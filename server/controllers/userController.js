@@ -1,6 +1,7 @@
 // Middleware for things related to the user - i.e. setting favorites
 
 const User = require('../models/userModels');
+const bcrypt = require('bcrypt');
 const userController = {};
 
 userController.updateFavorites = async (req, res, next) => {
@@ -22,6 +23,7 @@ userController.updateFavorites = async (req, res, next) => {
 userController.getFavorites = async (req, res, next) => {
   try {
     // Get favorites data out of the database and set it to res.locals.favorites
+    console.log(req.body);
     let currentFavs = await User.findOne({ name : 'Matt' }, 'favorites');
     currentFavs = currentFavs.favorites;
     res.locals.favorites = currentFavs;
@@ -33,7 +35,26 @@ userController.getFavorites = async (req, res, next) => {
 
 userController.createUser = async (req, res, next) => {
   try {
-    //
+    const doc = await User.create({
+      name: req.body.username,
+      password: req.body.password,
+      favorites: [],
+    });
+    res.locals.created = true;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+}
+
+userController.verifyUser = async (req, res, next) => {
+  try {
+    const doc = await User.findOne({ 'name' : req.body.username });
+    const hash = doc.get('password');
+    bcrypt.compare(req.body.password, hash, function(err, result) {
+      res.locals.verified = result;
+      return next();
+    });
   } catch (err) {
     return next(err);
   }
