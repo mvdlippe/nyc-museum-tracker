@@ -15,4 +15,17 @@ apiController.getMuseums = async (req, res, next) => {
   }
 }
 
+apiController.mergeFavs = (req, res, next) => {
+  try {
+    // Need to add a fav property to each museum object.
+    res.locals.museums.forEach((museum) => {
+      if (res.locals.favorites.includes(museum.name)) museum.fav = true;
+      else museum.fav = false;
+    })
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+}
+
 module.exports = apiController;

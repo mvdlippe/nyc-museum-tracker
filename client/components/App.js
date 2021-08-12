@@ -15,6 +15,22 @@ class App extends Component {
   }
 
   favClicked(museumName) {
+    // First, set the museum favorite status locally by changing state and triggering a button color change
+    let museumIndex = -1;
+    for (let i = 0; i < this.state.museums.length; i++) {
+      if (this.state.museums[i].name === museumName) {
+        museumIndex = i;
+        break;
+      }
+    }
+
+    const museum = { ...this.state.museums[museumIndex] };
+    if (museum.hasOwnProperty('fav') && museum.fav) museum.fav = false;
+    else museum.fav = true;
+
+    this.state.museums[museumIndex] = museum;
+
+    // Then, send the favorite update to the server
     fetch('/favorites', {
       method: 'POST',
       body: JSON.stringify({ 'name' : museumName }),

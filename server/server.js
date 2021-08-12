@@ -10,13 +10,19 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/build', express.static(path.join(__dirname, '../build/')));
 
-app.get('/api/', apiController.getMuseums, (req, res) => {
-  res.status(200).json(res.locals.museums);
+app.get('/api/', 
+  apiController.getMuseums, 
+  userController.getFavorites, 
+  apiController.mergeFavs, 
+  (req, res) => {
+    res.status(200).json(res.locals.museums);
 });
 
-app.post('/favorites/', userController.updateFavorites, (req, res) => {
-  console.log('Getting a favorites post request from: ', req.body);
-  res.status(200).json(res.locals.favorites);
+app.post('/favorites/',
+  userController.getFavorites,
+  userController.updateFavorites, 
+  (req, res) => {
+    res.status(200).json(res.locals.favorites);
 });
 
 app.get('/', (req, res) => {

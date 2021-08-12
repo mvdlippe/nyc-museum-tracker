@@ -3,7 +3,7 @@ import React from 'react';
 
 const MuseumCard = (props) => {
   // Destructure the passed down info
-  const { name, tel, url, adress1, address2, city, zip } = props.info;
+  const { name, tel, url, adress1, address2, city, zip, fav } = props.info;
 
   function Address(info) {
     // If address2 exists, return both adress1 and address2; otherwise just return adress1
@@ -32,6 +32,15 @@ const MuseumCard = (props) => {
     return null;
   }
 
+  function FavButton(info) {
+    // If the museum is a fav, return a button with class favButtonTrue. Else, class is favButtonFalse
+    if (fav) {
+      return <button type="button" className="favButtonTrue" onClick={() => props.favClicked(name)}>&lt;3</button>
+    } else {
+      return <button type="button" className="favButtonFalse" onClick={() => props.favClicked(name)}>&lt;3</button>
+    }
+  }
+
   return (
     <article>
       <div>
@@ -45,7 +54,7 @@ const MuseumCard = (props) => {
         <li>Telephone: {tel}</li>
       </ul>
       <div>
-        <button type="button" className="favButton" onClick={() => props.favClicked(name)}>&lt;3</button>
+        <FavButton />
       </div>
     </article>
   );

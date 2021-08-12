@@ -5,14 +5,8 @@ const userController = {};
 
 userController.updateFavorites = async (req, res, next) => {
   try {
-    console.log('Got into updateFavorites.');
-    // General db query
-    const allUsers = await User.find({});
-    console.log(allUsers);
-    // Get the current favorites from the database
-    let currentFavs = await User.findOne({ 'name' : 'Matt' }, 'favorites');
-    console.log('Got back currentFavs: ', currentFavs, currentFavs.favorites);
-    currentFavs = currentFavs.favorites;
+    // current favs are stored in res.locals.favorites
+    let currentFavs = res.locals.favorites;
     // Check to see if the new favorite is in the currentFavs. Add it if it is not; otherwise remove it
     const favIndex = currentFavs.indexOf(req.body.name);
     if (favIndex === -1) currentFavs.push(req.body.name);
@@ -24,5 +18,17 @@ userController.updateFavorites = async (req, res, next) => {
     return next(err);
   }
 };
+
+userController.getFavorites = async (req, res, next) => {
+  try {
+    // Get favorites data out of the database and set it to res.locals.favorites
+    let currentFavs = await User.findOne({ name : 'Matt' }, 'favorites');
+    currentFavs = currentFavs.favorites;
+    res.locals.favorites = currentFavs;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+}
 
 module.exports = userController;

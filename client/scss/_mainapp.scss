@@ -29,6 +29,14 @@ article {
   height: 45vh;
 }
 
+.favButtonTrue {
+  background-color: $favRed;
+}
+
+.favButtonFalse {
+  background-color: $grey;
+}
+
 @media screen and (max-width: 600px) {
   html {
     font-size: 12px;
